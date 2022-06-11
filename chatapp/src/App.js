@@ -20,7 +20,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="chat" element={<Chat />} />
+      <Route path="/chat" element={<Chat />} />
+      <Route path="/chat/:id" element={<Chat />} />
     </Routes>
   );
 }
