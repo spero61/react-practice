@@ -1,49 +1,22 @@
+import './App.css';
 import { initializeApp } from 'firebase/app';
-import {
-  getFirestore, collection, getDocs,
-} from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import Login from './components/Login';
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyAH7mjbgFDGwbDe62DDsSHmgFq0cKwiqsg',
-  authDomain: 'luomu-fbd4c.firebaseapp.com',
-  projectId: 'luomu-fbd4c',
-  storageBucket: 'luomu-fbd4c.appspot.com',
-  messagingSenderId: '542159287247',
-  appId: '1:542159287247:web:57a6555670dea7608ad8ba',
-  measurementId: 'G-S9HFLXKL29',
+  apiKey: 'AIzaSyCeczlX1US-j8C0fAFumc38-VKRAxJt9tU',
+  authDomain: 'portfolio-fd1d3.firebaseapp.com',
+  projectId: 'portfolio-fd1d3',
+  storageBucket: 'portfolio-fd1d3.appspot.com',
+  messagingSenderId: '348342301612',
+  appId: '1:348342301612:web:161ecfc29554efa6468009',
 };
 
 // init firebase app
 initializeApp(firebaseConfig);
 
-// init services
-const db = getFirestore();
-
-// collection ref
-const colRef = collection(db, 'messages');
-
-// get collection data
-getDocs(colRef)
-  .then((snapshot) => {
-    console.log(snapshot.docs);
-    const chat = [];
-    const messages = [];
-    snapshot.docs.forEach((doc) => {
-      chat.push({ ...doc.data(), id: doc.id });
-    });
-    chat.forEach((elem) => console.log(elem.text));
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-function App() {
-  return (
-    <div>
-      See the console
-    </div>
-  );
-}
+const App = () => (
+  <Login />
+);
 
 export default App;
