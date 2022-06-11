@@ -1,8 +1,8 @@
 import './App.css';
 import { initializeApp } from 'firebase/app';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
-import Sidebar from './components/Sidebar';
+import Chat from './components/Chat';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCeczlX1US-j8C0fAFumc38-VKRAxJt9tU',
@@ -16,9 +16,13 @@ const firebaseConfig = {
 // init firebase app
 initializeApp(firebaseConfig);
 
-const App = () => (
-  // <Login />
-  <Sidebar />
-);
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="chat" element={<Chat />} />
+    </Routes>
+  );
+}
 
 export default App;

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Avatar } from '@chakra-ui/avatar';
 import { Button } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,8 +31,9 @@ const Sidebar = () => (
         <Text>Son Heung-min</Text>
       </Flex>
 
-      <FontAwesomeIcon icon={faArrowRightFromBracket} size="lg" color="#555555" />
-
+      <Link to="/">
+        <FontAwesomeIcon icon={faArrowRightFromBracket} size="lg" color="#555555" />
+      </Link>
     </Flex>
 
     <Button m={5} p={5}>New Chat</Button>

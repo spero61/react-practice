@@ -1,5 +1,6 @@
 import { ChatIcon } from '@chakra-ui/icons';
 import { Box, Button, Center, Stack } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 const Login = () => (
   <Center h="80vh">
@@ -8,7 +9,9 @@ const Login = () => (
         <ChatIcon boxSize={100} color="gray.100" />
       </Box>
 
-      <Button boxShadow="md">Sign In with Google</Button>
+      <Link to="/chat">
+        <Button boxShadow="md">Start the chat</Button>
+      </Link>
     </Stack>
   </Center>
 );
