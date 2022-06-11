@@ -2,6 +2,7 @@ import './App.css';
 import { initializeApp } from 'firebase/app';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Login from './components/Login';
+import Sidebar from './components/Sidebar';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCeczlX1US-j8C0fAFumc38-VKRAxJt9tU',
@@ -16,7 +17,8 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const App = () => (
-  <Login />
+  // <Login />
+  <Sidebar />
 );
 
 export default App;
