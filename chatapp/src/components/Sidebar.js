@@ -8,6 +8,7 @@ import { signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { collection, addDoc } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
 import { auth, db } from '../firebaseConfig';
 
 // get email addresses of users other then currently signed-in user
@@ -21,8 +22,6 @@ const Sidebar = (props) => {
   const navigate = useNavigate();
 
   const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  console.log(id);
-  console.log(chats);
 
   // user.email: an email of the current user
   const isChatExists = (email) => chats
@@ -40,7 +39,7 @@ const Sidebar = (props) => {
       .map(
         chat => (
           <Flex
-            // key={Math.random()}
+            key={uuidv4()}
             align="center"
             p={3}
             _hover={{ bg: 'gray.100', cursor: 'pointer' }}
