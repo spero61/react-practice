@@ -39,7 +39,7 @@ const Sidebar = () => (
     <Button m={5} p={5}>New Chat</Button>
 
     {/* sx prop: https://chakra-ui.com/docs/styled-system/features/the-sx-prop */}
-    <Flex overflowX="scroll" direction="column" sx={{ scrollbarWidth: 'none', overflowX: 'hidden' }}>
+    <Flex overflowX="scroll" direction="column" flex={1} sx={{ scrollbarWidth: 'none', overflowX: 'hidden' }}>
       <UserChat />
       <UserChat />
     </Flex>
