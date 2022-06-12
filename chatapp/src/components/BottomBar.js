@@ -1,15 +1,44 @@
 import { FormControl, Input, Button } from '@chakra-ui/react';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useState } from 'react';
+import { db } from '../firebaseConfig';
 
-const BottomBar = () => (
-  <FormControl
-    bg="gray.100"
-    w="100%"
-    align="center"
-    p={4}
-  >
-    <Input placeholder="Type a message..." autoComplete="off" autoFocus />
-    <Button type="submit" hidden>Send</Button>
-  </FormControl>
-);
+const BottomBar = ({ id, email }) => {
+  const [input, setInput] = useState('');
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    // https://firebase.google.com/docs/firestore/manage-data/add-data
+    await addDoc(collection(db, `chats/${id}/messages`), {
+      text: input,
+      sender: email,
+      timestamp: serverTimestamp(),
+    });
+    setInput('');
+  };
+
+  return (
+    <FormControl
+      bg="gray.100"
+      w="100%"
+      align="center"
+      p={4}
+      onSubmit={sendMessage}
+      as="form"
+    >
+      <Input
+        placeholder="Type a message..."
+        autoComplete="off"
+        autoFocus
+        onChange={(e) => setInput(e.target.value)}
+        value={input}
+      />
+      <Button type="submit" hidden>
+        Send
+
+      </Button>
+    </FormControl>
+  );
+};
 
 export default BottomBar;

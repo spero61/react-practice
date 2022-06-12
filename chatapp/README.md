@@ -68,3 +68,27 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### Firestore collection "chats"
+
+```javascript
+const chats = [
+  {
+    users: ['1111@gmail.com', '2222@gmail.com'],
+    messages: [
+      {
+        text: 'Hello, my friend!',
+        timestamp: '',
+        sender: '1111@gmail.com',
+      },
+      {
+        text: 'Hola, mi amigo!',
+        timestamp: '',
+        sender: '2222@gmail.com',
+      },
+    ],
+  },
+];
+
+```
