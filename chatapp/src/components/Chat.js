@@ -9,24 +9,6 @@ import Sidebar from './Sidebar';
 import TopBar from './TopBar';
 import BottomBar from './BottomBar';
 
-const chats = [
-  {
-    users: ['qrs1997@gmail.com', 'spero61@gmail.com'],
-    messages: [
-      {
-        text: 'Hello, my friend!',
-        timestamp: '',
-        sender: 'qrs1997@gmail.com',
-      },
-      {
-        text: 'Hasta la vida!',
-        timestamp: '',
-        sender: 'spero61@gmail.com',
-      },
-    ],
-  },
-];
-
 const Chat = (props) => {
   const [user] = useAuthState(auth);
   const { id } = useParams();
@@ -56,6 +38,7 @@ const Chat = (props) => {
           minWidth="100px"
           borderRadius="lg"
           p={3}
+          my={2}
           bg={sender ? 'blue.100' : 'green.100'}
           alignSelf={sender ? 'flex-start' : 'flex-end'}
         >

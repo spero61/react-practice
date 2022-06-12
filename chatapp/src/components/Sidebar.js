@@ -56,6 +56,7 @@ const Sidebar = (props) => {
     <Flex
       bg="cyan.100"
       w="30vw"
+      h="100vh"
       minWidth="250px"
       borderEnd="1px solid"
       borderColor="gray.100"

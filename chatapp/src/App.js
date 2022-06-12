@@ -5,6 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebaseConfig';
 import Login from './components/Login';
 import Chat from './components/Chat';
+import Sidebar from './components/Sidebar';
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -33,8 +34,8 @@ function App() {
   }
   return (
     <Routes>
-      <Route path="/" element={<Chat />} />
-      <Route path="/chat" element={<Chat />} />
+      <Route path="/" element={<Sidebar />} />
+      <Route path="/chat" element={<Sidebar />} />
       <Route path="/chat/:id" element={<Chat />} />
     </Routes>
   );
