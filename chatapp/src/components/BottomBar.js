@@ -1,15 +1,15 @@
-import { Flex, Heading } from '@chakra-ui/layout';
+import { FormControl, Input, Button } from '@chakra-ui/react';
 
 const BottomBar = () => (
-  <Flex
+  <FormControl
     bg="gray.100"
-    h="80px"
     w="100%"
     align="center"
-    p={5}
+    p={4}
   >
-    <Heading size="sm" color="#777777">Please type here...</Heading>
-  </Flex>
+    <Input placeholder="Type a message..." autoComplete="off" autoFocus />
+    <Button type="submit" hidden>Send</Button>
+  </FormControl>
 );
 
 export default BottomBar;
