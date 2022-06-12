@@ -7,7 +7,7 @@ import { Flex, Text } from '@chakra-ui/layout';
 import { signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { collection } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { auth, db } from '../firebaseConfig';
 
 // get email addresses of users other then currently signed-in user
@@ -23,6 +23,17 @@ const Sidebar = (props) => {
   const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   console.log(id);
   console.log(chats);
+
+  // user.email: an email of the current user
+  const isChatExists = (email) => chats
+    ?.find(chat => (chat.users.includes(user.email) && chat.users.includes(email)));
+
+  const newChat = async () => {
+    const email = prompt('Enter email of chat recipient');
+    if (!isChatExists(email)) {
+      await addDoc(collection(db, 'chats'), { users: [user.email, email] });
+    }
+  };
 
   const chatList = () => (
     chats?.filter(chat => chat.users.includes(user.email))
@@ -68,16 +79,11 @@ const Sidebar = (props) => {
         </Flex>
 
         <Link to="/">
-          <FontAwesomeIcon
-            icon={faArrowRightFromBracket}
-            onClick={() => signOut(auth)}
-            size="lg"
-            color="#555555"
-          />
+          <FontAwesomeIcon icon={faArrowRightFromBracket} size="lg" color="#555555" onClick={() => signOut(auth)} />
         </Link>
       </Flex>
 
-      <Button m={5} p={5}>New Chat</Button>
+      <Button m={5} p={5} onClick={() => newChat()}>New Chat</Button>
 
       {/* sx prop: https://chakra-ui.com/docs/styled-system/features/the-sx-prop */}
       <Flex
