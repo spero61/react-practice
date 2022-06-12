@@ -10,7 +10,7 @@ const Sidebar = () => (
   <Flex
     bg="cyan.100"
     w="300px"
-    h="100vh"
+    // h="100vh"
     borderEnd="1px solid"
     borderColor="gray.100"
     direction="column"
