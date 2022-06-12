@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Avatar } from '@chakra-ui/avatar';
 import { Button } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,11 +6,41 @@ import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Flex, Text } from '@chakra-ui/layout';
 import { signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebaseConfig';
-import UserChat from './UserChat';
+import { useCollection } from 'react-firebase-hooks/firestore';
+import { collection } from 'firebase/firestore';
+import { auth, db } from '../firebaseConfig';
 
-const Sidebar = () => {
+// get email addresses of users other then currently signed-in user
+const getEmails = (users, currentUser) => users?.filter(user => user !== currentUser.email)[0];
+
+const Sidebar = (props) => {
   const [user] = useAuthState(auth);
+  // https://github.com/CSFrequency/react-firebase-hooks/tree/master/firestore
+  const [snapshot, loading, error] = useCollection(collection(db, 'chats'));
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  console.log(id);
+  console.log(chats);
+
+  const chatList = () => (
+    chats?.filter(chat => chat.users.includes(user.email))
+      .map(
+        chat => (
+          <Flex
+            // key={Math.random()}
+            align="center"
+            p={3}
+            _hover={{ bg: 'gray.100', cursor: 'pointer' }}
+            onClick={() => navigate(`/chat/${chat.id}`)}
+          >
+            <Avatar src="" marginEnd={3} />
+            <Text>{getEmails(chat.users, user)}</Text>
+          </Flex>
+        ),
+      )
+  );
 
   return (
     <Flex
@@ -56,8 +86,7 @@ const Sidebar = () => {
         flex={1}
         sx={{ scrollbarWidth: 'none', overflowX: 'hidden' }}
       >
-        <UserChat />
-        <UserChat />
+        {chatList()}
       </Flex>
 
     </Flex>

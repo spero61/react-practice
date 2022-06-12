@@ -1,23 +1,11 @@
-import { Flex, Heading, Text } from '@chakra-ui/layout';
+import { Flex, Text } from '@chakra-ui/layout';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
 import BottomBar from './BottomBar';
 
-// <br />
-// <h3>
-//   user ID:
-//   {' '}
-//   {id}
-// </h3>
-
 const Chat = (props) => {
   const { id } = useParams();
-
-  useEffect(() => {
-    console.log(`/chat/${id}`);
-  }, []);
 
   return (
 
