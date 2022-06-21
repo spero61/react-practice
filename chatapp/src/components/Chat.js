@@ -47,7 +47,7 @@ const Chat = () => {
             marginStart={1}
             marginEnd={2}
             fontSize="sm"
-            color="#888888"
+            color="#EEEEEE"
           >
             {senderId || ''}
           </Text>
@@ -78,7 +78,7 @@ const Chat = () => {
             marginStart={3}
             // marginEnd={2}
             fontSize="xs"
-            color="#888888"
+            color="#DDDDDD"
           >
             {timestampFormatted || ''}
           </Text>
@@ -97,14 +97,20 @@ const Chat = () => {
     [messages],
   );
 
+  const chatBackground = id === 'groupchat' ? '../../assets/chatarea02.jpg' : '../../assets/chatarea01.jpg';
+
   return (
 
-    <Flex h="100vh">
+    <Flex
+      h="100vh"
+    >
       <Sidebar />
       <Flex
         bg="gray.50"
         direction="column"
         flex={1}
+        backgroundImage={chatBackground}
+        backgroundSize="cover"
       >
         <TopBar email={getOpponentEmail(chatInfo?.users, user.email)} />
 

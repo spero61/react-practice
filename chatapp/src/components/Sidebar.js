@@ -34,23 +34,29 @@ const Sidebar = (props) => {
     }
   };
 
-  const chatList = () => (
-    chats?.filter(chat => chat.users.includes(user.email))
-      .map(
-        chat => (
-          <Flex
-            key={uuidv4()}
-            align="center"
-            p={3}
-            _hover={{ bg: 'gray.100', cursor: 'pointer' }}
-            onClick={() => { navigate(`/chat/${chat.id}`); }}
-          >
-            <Avatar src="" marginEnd={3} />
-            <Text>{getEmails(chat.users, user)}</Text>
-          </Flex>
-        ),
-      )
-  );
+  const chatList = () => {
+    const searchWords = ['pattern', 'gradient', 'summer', 'space', 'sky', 'ocean'];
+    const selectedWord = searchWords[0];
+    const randomAvatarImage = `https://source.unsplash.com/random/300×300?${selectedWord}`;
+
+    return (
+      chats?.filter(chat => chat.users.includes(user.email))
+        .map(
+          chat => (
+            <Flex
+              key={uuidv4()}
+              align="center"
+              p={3}
+              _hover={{ bg: 'gray.100', cursor: 'pointer' }}
+              onClick={() => { navigate(`/chat/${chat.id}`); }}
+            >
+              <Avatar src={randomAvatarImage} marginEnd={3} />
+              <Text>{getEmails(chat.users, user)}</Text>
+            </Flex>
+          ),
+        )
+    );
+  };
 
   return (
     <Flex
@@ -92,6 +98,7 @@ const Sidebar = (props) => {
         flex={1}
         sx={{ scrollbarWidth: 'none', overflowX: 'hidden' }}
       >
+        {/* groupchat */}
         <Flex
           key={uuidv4()}
           align="center"
@@ -99,8 +106,21 @@ const Sidebar = (props) => {
           _hover={{ bg: 'gray.100', cursor: 'pointer' }}
           onClick={() => navigate('/chat/groupchat')}
         >
-          <Avatar src="" marginEnd={3} />
+
+          <Avatar src="https://i.imgur.com/EuXdDLh.png" marginEnd={3} />
           <Text>chat demo</Text>
+        </Flex>
+        {/* luomuchat */}
+        <Flex
+          key={uuidv4()}
+          align="center"
+          p={3}
+          _hover={{ bg: 'gray.100', cursor: 'pointer' }}
+          onClick={() => navigate('/chat/luomu')}
+        >
+
+          <Avatar src="https://i.imgur.com/mO4BCUQ.jpg" marginEnd={3} />
+          <Text>Team Luomu</Text>
         </Flex>
         {chatList()}
       </Flex>
