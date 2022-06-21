@@ -1,6 +1,6 @@
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Avatar } from '@chakra-ui/avatar';
-import { Button } from '@chakra-ui/react';
+import { Button, Container } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Flex, Text } from '@chakra-ui/layout';
@@ -14,7 +14,17 @@ import { auth, db } from '../firebaseConfig';
 // get email addresses of users other then currently signed-in user
 const getEmails = (users, currentUser) => users?.filter(user => user !== currentUser.email)[0];
 
-const Sidebar = (props) => {
+const ChatListText = ({ children }) => (
+  <Text
+    fontSize={['11px', '14px', '16px']}
+    fontWeight={[500, 600, 600]}
+    color="#343434"
+  >
+    {children}
+  </Text>
+);
+
+const Sidebar = () => {
   const [user] = useAuthState(auth);
   // https://github.com/CSFrequency/react-firebase-hooks/tree/master/firestore
   const [snapshot, loading, error] = useCollection(collection(db, 'chats'));
@@ -50,8 +60,16 @@ const Sidebar = (props) => {
               _hover={{ bg: 'gray.100', cursor: 'pointer' }}
               onClick={() => { navigate(`/chat/${chat.id}`); }}
             >
-              <Avatar src={randomAvatarImage} marginEnd={3} />
-              <Text>{getEmails(chat.users, user)}</Text>
+              <Avatar
+                w={['25px', '40px', '50px']}
+                h={['25px', '40px', '50px']}
+                marginEnd={['2', '2', '3']}
+                src={randomAvatarImage}
+              />
+              <ChatListText>
+                {/* slice the user's email to get rid of @gmail.com */}
+                {getEmails(chat.users, user).slice(0, -10)}
+              </ChatListText>
             </Flex>
           ),
         )
@@ -60,39 +78,70 @@ const Sidebar = (props) => {
 
   return (
     <Flex
-      bg="cyan.100"
-      w="30vw"
+      bgGradient={[
+        'linear(to-t, #e1cbf7, teal.200)',
+      ]}
+      w={['120px', '200px', '300px', '350px']}
+      // w="25vw"
       h="100vh"
-      minWidth="250px"
+      // minWidth="250px"
       borderEnd="1px solid"
-      borderColor="gray.100"
+      borderColor="gray.200"
       direction="column"
     >
       <Flex
-        bg="teal.200"
+        bgGradient="linear(to-b, orange.100, teal.200)"
         w="100%"
         h="81px"
         align="center"
         justifyContent="space-between"
-        p={3}
+        p={[1, 2, 3]}
         borderBottom="1px solid"
-        borderColor="gray.100"
+        borderColor="teal.200"
       >
         {/* default profile avatar */}
         <Flex align="center">
-          <Avatar src={user.photoURL} marginEnd={3} />
-          <Text fontSize="lg" color="#333333" fontWeight={700}>{user.displayName}</Text>
-        </Flex>
+          <Avatar
+            w={['30px', '35px', '55px']}
+            h={['30px', '35px', '55px']}
+            marginEnd={['2', '2', '3']}
+            src={user.photoURL}
+          />
+          <Text
+            fontSize={['10px', '', 'lg']}
+            color="#333333"
+            fontWeight={700}
+          >
+            {user.displayName}
 
+          </Text>
+        </Flex>
         <Link to="/">
-          <FontAwesomeIcon icon={faArrowRightFromBracket} size="lg" color="#555555" onClick={() => signOut(auth)} />
+          <FontAwesomeIcon
+            icon={faArrowRightFromBracket}
+            color="#555555"
+            size="1x"
+            onClick={() => signOut(auth)}
+          />
         </Link>
       </Flex>
 
-      <Button m={5} p={5} onClick={() => newChat()}>New Chat</Button>
+      <Button
+        bgGradient="linear(to-br, yellow.100, purple.100)"
+        fontSize={['12px', '14px', '16px']}
+        fontWeight={[500, 600, 600]}
+        borderRadius="full"
+        color="gray.700"
+        m={[4, 3, 5]}
+        p={[1, 4, 5]}
+        onClick={() => newChat()}
+      >
+        New Chat
+      </Button>
 
       {/* sx prop: https://chakra-ui.com/docs/styled-system/features/the-sx-prop */}
       <Flex
+        key={uuidv4()}
         overflowX="scroll"
         direction="column"
         flex={1}
@@ -100,27 +149,35 @@ const Sidebar = (props) => {
       >
         {/* groupchat */}
         <Flex
-          key={uuidv4()}
           align="center"
           p={3}
           _hover={{ bg: 'gray.100', cursor: 'pointer' }}
           onClick={() => navigate('/chat/groupchat')}
         >
 
-          <Avatar src="https://i.imgur.com/EuXdDLh.png" marginEnd={3} />
-          <Text>chat demo</Text>
+          <Avatar
+            w={['25px', '40px', '50px']}
+            h={['25px', '40px', '50px']}
+            marginEnd={['2', '2', '3']}
+            src="https://i.imgur.com/EuXdDLh.png"
+          />
+          <ChatListText>tutorial</ChatListText>
         </Flex>
         {/* luomuchat */}
         <Flex
-          key={uuidv4()}
           align="center"
           p={3}
           _hover={{ bg: 'gray.100', cursor: 'pointer' }}
           onClick={() => navigate('/chat/luomu')}
         >
 
-          <Avatar src="https://i.imgur.com/mO4BCUQ.jpg" marginEnd={3} />
-          <Text>Team Luomu</Text>
+          <Avatar
+            w={['25px', '40px', '50px']}
+            h={['25px', '40px', '50px']}
+            marginEnd={['2', '2', '3']}
+            src="https://i.imgur.com/mO4BCUQ.jpg"
+          />
+          <ChatListText>Team Luomu</ChatListText>
         </Flex>
         {chatList()}
       </Flex>

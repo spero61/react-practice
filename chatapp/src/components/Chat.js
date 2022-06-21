@@ -27,14 +27,18 @@ const Chat = () => {
 
   const [chatInfo] = useDocumentData(doc(db, 'chats', id));
 
+  let timestampFormatted = '12/31 12:34:56'; // initial value for debugging
+
   const getMessages = () => messages
     ?.map(msg => {
       const sender = msg.sender === user.email;
       const senderId = msg.sender.slice(0, -10); // substring without "@gmail.com"
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#get_the_number_of_seconds_since_the_ecmascript_epoch
-      const timestamp = new Date(msg.timestamp.seconds * 1000);
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString
-      const timestampFormatted = timestamp.toLocaleString('ja-JP').slice(5); // to get rid of year
+      if (msg.timestamp?.seconds) {
+        const timestamp = new Date(msg.timestamp.seconds * 1000);
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString
+        timestampFormatted = timestamp.toLocaleString('ja-JP').slice(5); // to get rid of year
+      }
       return (
         <Stack
           key={uuidv4()}
@@ -46,7 +50,7 @@ const Chat = () => {
             alignSelf={sender ? 'flex-end' : 'flex-start'}
             marginStart={1}
             marginEnd={2}
-            fontSize="sm"
+            fontSize={['xs', 'xs', 'sm']}
             color="#EEEEEE"
           >
             {senderId || ''}
@@ -63,26 +67,27 @@ const Chat = () => {
           >
             <Image
               marginEnd={2}
-              boxSize="25px"
+              boxSize={['15px', '20px', '25px']}
               borderRadius="full"
               objectFit="cover"
               src={msg.picURL ? msg.picURL : 'https://i.imgur.com/EuXdDLh.png'}
               alt="profile pic"
             />
-            <Text>{msg.text}</Text>
+            <Text
+              fontSize={['11px', '13px', 'md']}
+            >
+              {msg.text}
+            </Text>
           </Flex>
           <Text
             marginTop={0}
-            // alignSelf={sender ? 'flex-end' : 'flex-start'}
             textAlign={sender ? 'end' : 'start'}
             marginStart={3}
-            // marginEnd={2}
-            fontSize="xs"
+            fontSize={['xx-small', 'xs', 'sm']}
             color="#DDDDDD"
           >
             {timestampFormatted || ''}
           </Text>
-
         </Stack>
       );
     });
@@ -97,11 +102,12 @@ const Chat = () => {
     [messages],
   );
 
-  const chatBackground = id === 'groupchat' ? '../../assets/chatarea02.jpg' : '../../assets/chatarea01.jpg';
+  const chatBackground = id === 'groupchat' ? '../../assets/chatarea01.jpg' : '../../assets/chatarea03.jpg';
 
   return (
 
     <Flex
+      id="chatContainer"
       h="100vh"
     >
       <Sidebar />
