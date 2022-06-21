@@ -9,14 +9,7 @@ import './App.css';
 const initialValue = [
   {
     type: 'paragraph',
-    children: [{ text: 'A line of text in a paragraph.'}],
-  },
-];
-
-const customValue = [
-  {
-    type: 'paragraph',
-    children: [{ text: 'Slate.js here we go!'}],
+    children: [{ text: 'This is initialValue' }],
   },
 ];
 
@@ -24,18 +17,20 @@ function App() {
   // Create a Slate editor object that won't change across renders.
   const [editor] = useState(() => withReact(createEditor()));
   return (
-    <div className="App">
-      <header className="App-header"></header>
-      <body>
+    <div className="container">
       {/* Add the editable component inside the context. */}
       <Slate editor={editor} value={initialValue}>
-        <Editable />
+        <Editable
+          // Adding Event Handlers: https://docs.slatejs.org/walkthroughs/02-adding-event-handlers
+          // onKeyDown={event => { console.log(event.key); }}
+          onKeyDown={event => {
+            if (event.key === '&') {
+              event.preventDefault();
+              editor.insertText('and');
+            }
+          }}
+        />
       </Slate>
-      <br></br>
-      <Slate editor={editor} value={customValue}>
-        <Editable />
-      </Slate>
-      </body>
     </div>
   );
 }
