@@ -2,7 +2,6 @@ import './App.css';
 import { Spinner, Center } from '@chakra-ui/react';
 import { Routes, Route } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useState } from 'react';
 import { auth } from './firebaseConfig';
 import Login from './components/Login';
 import Chat from './components/Chat';

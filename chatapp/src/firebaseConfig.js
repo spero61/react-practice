@@ -2,7 +2,8 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// web app's Firebase configuration
+// it's safe to expose firebase public key here
+// as it is only used to identify firebase app from google server
 const config = {
   apiKey: 'AIzaSyCeczlX1US-j8C0fAFumc38-VKRAxJt9tU',
   authDomain: 'portfolio-fd1d3.firebaseapp.com',

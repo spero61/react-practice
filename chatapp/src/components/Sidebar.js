@@ -43,7 +43,7 @@ const Sidebar = (props) => {
             align="center"
             p={3}
             _hover={{ bg: 'gray.100', cursor: 'pointer' }}
-            onClick={() => navigate(`/chat/${chat.id}`)}
+            onClick={() => { navigate(`/chat/${chat.id}`); }}
           >
             <Avatar src="" marginEnd={3} />
             <Text>{getEmails(chat.users, user)}</Text>
@@ -92,6 +92,16 @@ const Sidebar = (props) => {
         flex={1}
         sx={{ scrollbarWidth: 'none', overflowX: 'hidden' }}
       >
+        <Flex
+          key={uuidv4()}
+          align="center"
+          p={3}
+          _hover={{ bg: 'gray.100', cursor: 'pointer' }}
+          onClick={() => navigate('/chat/groupchat')}
+        >
+          <Avatar src="" marginEnd={3} />
+          <Text>chat demo</Text>
+        </Flex>
         {chatList()}
       </Flex>
 

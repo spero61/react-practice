@@ -1,10 +1,12 @@
 import { FormControl, Input, Button } from '@chakra-ui/react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useState } from 'react';
-import { db } from '../firebaseConfig';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, db } from '../firebaseConfig';
 
 const BottomBar = ({ id, email }) => {
   const [input, setInput] = useState('');
+  const [user] = useAuthState(auth);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -13,6 +15,8 @@ const BottomBar = ({ id, email }) => {
       text: input,
       sender: email,
       timestamp: serverTimestamp(),
+      picURL: user.photoURL,
+
     });
     setInput('');
   };
