@@ -45,9 +45,10 @@ const Sidebar = () => {
   };
 
   const chatList = () => {
-    const searchWords = ['pattern', 'gradient', 'summer', 'space', 'sky', 'ocean'];
-    const selectedWord = searchWords[0];
-    const randomAvatarImage = `https://source.unsplash.com/random/300×300?${selectedWord}`;
+    // const numberOfImages = 10;
+    // ((id.charCodeAt(1) + id.charCodeAt(2)) * id.charCodeAt(3)) % numberOfImages;
+    // const chatImageFile = `chatarea0${chatImageIdx}.jpg`;
+    const randomAvatarImage = 'https://source.unsplash.com/random/200×200?ocean';
 
     return (
       chats?.filter(chat => chat.users.includes(user.email))
@@ -68,6 +69,7 @@ const Sidebar = () => {
               />
               <ChatListText>
                 {/* slice the user's email to get rid of @gmail.com */}
+                {}
                 {getEmails(chat.users, user).slice(0, -10)}
               </ChatListText>
             </Flex>
@@ -175,7 +177,7 @@ const Sidebar = () => {
             w={['25px', '40px', '50px']}
             h={['25px', '40px', '50px']}
             marginEnd={['2', '2', '3']}
-            src="https://i.imgur.com/mO4BCUQ.jpg"
+            src="https://i.imgur.com/6m61BZB.png"
           />
           <ChatListText>Team Luomu</ChatListText>
         </Flex>

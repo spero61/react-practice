@@ -102,7 +102,9 @@ const Chat = () => {
     [messages],
   );
 
-  const chatBackground = id === 'groupchat' ? '../../assets/chatarea01.jpg' : '../../assets/chatarea03.jpg';
+  const numberOfImages = 10;
+  const chatImageIdx = ((id.charCodeAt(1) + id.charCodeAt(2)) * id.charCodeAt(3)) % numberOfImages;
+  const chatImageFile = `chatarea0${chatImageIdx}.jpg`;
 
   return (
 
@@ -115,7 +117,7 @@ const Chat = () => {
         bg="gray.50"
         direction="column"
         flex={1}
-        backgroundImage={chatBackground}
+        sx={{ backgroundImage: `url(${`${process.env.PUBLIC_URL}/assets/${chatImageFile}`})` }}
         backgroundSize="cover"
       >
         <TopBar email={getOpponentEmail(chatInfo?.users, user.email)} />

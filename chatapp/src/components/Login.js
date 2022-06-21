@@ -13,7 +13,7 @@ const Login = () => {
   return (
     <Center
       h="100vh"
-      backgroundImage="http://luomu.cafe24.com/resources/image/contact-background.jpg"
+      sx={{ backgroundImage: `url(${`${process.env.PUBLIC_URL}/assets/login-background.jpg`})` }}
       backgroundSize="cover"
     >
       <Stack align="center" mb={20}>
