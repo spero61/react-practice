@@ -72,6 +72,9 @@ function App() {
 
   return (
     <Slate editor={editor} value={initialValue}>
+
+      <Toolbar editor={editor} />
+
       <Editable
         renderElement={renderElement}
         // Pass in the 'renderLeaf' function
@@ -97,9 +100,31 @@ function App() {
           }
         }}
       />
+
     </Slate>
   );
 }
+
+const Toolbar = ({ editor }) => (
+  <div>
+    <button
+      onMouseDown={event => {
+        event.preventDefault();
+        CustomEditor.toggleBoldMark(editor);
+      }}
+    >
+      Bold
+    </button>
+    <button
+      onMouseDown={event => {
+        event.preventDefault();
+        CustomEditor.toggleCodeBlock(editor);
+      }}
+    >
+      Code Block
+    </button>
+  </div>
+);
 
 // code blocks need to be rendered differently
 const CodeElement = props => (
