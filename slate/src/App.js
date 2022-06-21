@@ -1,5 +1,5 @@
 // Import React dependencies.
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 // Import the Slate editor factory.
 import { createEditor, Editor, Transforms, Text } from 'slate';
 // Import the Slate components and React plugin.
@@ -44,16 +44,20 @@ const CustomEditor = {
   },
 };
 
-const initialValue = [
-  {
-    type: 'paragraph',
-    children: [{ text: 'Slate is currently in beta. Its core API is usable now, but you might need to pull request fixes for advanced use cases. Some of its APIs are not "finalized" and will (breaking) change over time as we find better solutions.' }],
-  },
-];
-
 function App() {
   // Create a Slate editor object that won't change across renders.
   const [editor] = useState(() => withReact(createEditor()));
+
+  // Update the initial content to be pulled from Local Storage if it exists.
+  const initialValue = useMemo(
+    () => JSON.parse(localStorage.getItem('content')) || [
+      {
+        type: 'paragraph',
+        children: [{ text: 'A line of text in a paragraph.' }],
+      },
+    ],
+    [],
+  );
 
   // Define a rendering function based on the element passed to `props`. We use
   // `useCallback` here to memoize the function for subsequent renders.
@@ -71,7 +75,20 @@ function App() {
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 
   return (
-    <Slate editor={editor} value={initialValue}>
+    <Slate
+      editor={editor}
+      value={initialValue}
+      onChange={value => {
+        const isAstChange = editor.operations.some(
+          op => op.type !== 'set_selection',
+        );
+        if (isAstChange) {
+          // Save the value to Local Storage
+          const content = JSON.stringify(value);
+          localStorage.setItem('content', content);
+        }
+      }}
+    >
 
       <Toolbar editor={editor} />
 
