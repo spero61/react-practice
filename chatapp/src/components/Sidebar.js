@@ -1,6 +1,6 @@
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Avatar } from '@chakra-ui/avatar';
-import { Button, Container } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Flex, Text } from '@chakra-ui/layout';
