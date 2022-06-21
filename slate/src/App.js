@@ -6,6 +6,44 @@ import { createEditor, Editor, Transforms, Text } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import './App.css';
 
+// Define our own custom set of helpers.
+const CustomEditor = {
+  isBoldMarkActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: n => n.bold === true,
+      universal: true,
+    });
+
+    return !!match;
+  },
+
+  isCodeBlockActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: n => n.type === 'code',
+    });
+
+    return !!match;
+  },
+
+  toggleBoldMark(editor) {
+    const isActive = CustomEditor.isBoldMarkActive(editor);
+    Transforms.setNodes(
+      editor,
+      { bold: isActive ? null : true },
+      { match: n => Text.isText(n), split: true },
+    );
+  },
+
+  toggleCodeBlock(editor) {
+    const isActive = CustomEditor.isCodeBlockActive(editor);
+    Transforms.setNodes(
+      editor,
+      { type: isActive ? null : 'code' },
+      { match: n => Editor.isBlock(editor, n) },
+    );
+  },
+};
+
 const initialValue = [
   {
     type: 'paragraph',
@@ -45,29 +83,12 @@ function App() {
           switch (event.key) {
             case '`': {
               event.preventDefault();
-              const [match] = Editor.nodes(
-                editor,
-                { match: n => n.type === 'code' },
-
-              );
-              // Toggle the block type depending on whether there's already a match.
-              Transforms.setNodes(
-                editor,
-                { type: match ? 'paragraph' : 'code' },
-                { match: n => Editor.isBlock(editor, n) },
-              );
+              CustomEditor.toggleCodeBlock(editor);
               break;
             }
-            // When Ctrl+"B" is pressed, bold the text in the selection.
             case 'b': {
               event.preventDefault();
-              Transforms.setNodes(
-                editor,
-                { bold: true },
-                // Apply it to text nodes, and split the text node up if the
-                // selection is overlapping only part of it.
-                { match: n => Text.isText(n), split: true },
-              );
+              CustomEditor.toggleBoldMark(editor);
               break;
             }
             default: {
