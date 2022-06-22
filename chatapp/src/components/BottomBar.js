@@ -19,7 +19,6 @@ const BottomBar = ({ id, email }) => {
         sender: email,
         timestamp: serverTimestamp(),
         picURL: user.photoURL,
-
       });
       setInput('');
     }
@@ -51,7 +50,6 @@ const BottomBar = ({ id, email }) => {
             icon={faPaperPlane}
             color="#6667AB"
             size="1x"
-            onClick={() => signOut(auth)}
           />
         </Button>
       </Flex>

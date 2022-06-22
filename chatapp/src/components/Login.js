@@ -1,4 +1,3 @@
-import { ChatIcon } from '@chakra-ui/icons';
 import { Box, Center, Stack, Image, Heading } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
@@ -8,7 +7,7 @@ import { auth } from '../firebaseConfig';
 
 // https://github.com/CSFrequency/react-firebase-hooks/blob/master/auth/README.md
 const Login = () => {
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGoogle] = useSignInWithGoogle(auth);
 
   return (
     <Center
@@ -45,7 +44,7 @@ const Login = () => {
             {/* https://developers.google.com/identity/protocols/oauth2/openid-connect */}
             <Image
               height="46px"
-            // https://developers.google.com/identity/branding-guidelines
+              // https://developers.google.com/identity/branding-guidelines
               src="../assets/btn_google_signin_light_normal_web@2x.png"
               alt="Sign in with Google"
               onClick={() => signInWithGoogle('', { prompt: 'select_account' })}

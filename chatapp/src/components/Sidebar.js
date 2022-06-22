@@ -1,15 +1,16 @@
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Avatar } from '@chakra-ui/avatar';
 import { Button } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { Flex, Text } from '@chakra-ui/layout';
+import { Flex, Text, Box } from '@chakra-ui/layout';
 import { signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { collection, addDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { auth, db } from '../firebaseConfig';
+import PopoverToConfirm from './PopoverToConfirm';
 
 // get email addresses of users other then currently signed-in user
 const getEmails = (users, currentUser) => users?.filter(user => user !== currentUser.email)[0];
@@ -24,11 +25,14 @@ const ChatListText = ({ children }) => (
   </Text>
 );
 
+function signOutFromGoogle(authState) {
+  signOut(authState);
+}
+
 const Sidebar = () => {
   const [user] = useAuthState(auth);
   // https://github.com/CSFrequency/react-firebase-hooks/tree/master/firestore
   const [snapshot, loading, error] = useCollection(collection(db, 'chats'));
-  const { id } = useParams();
   const navigate = useNavigate();
 
   const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -95,7 +99,7 @@ const Sidebar = () => {
         h="81px"
         align="center"
         justifyContent="space-between"
-        p={[1, 2, 3]}
+        pl={[1, 2, 3]}
         borderBottom="1px solid"
         borderColor="teal.200"
       >
@@ -115,14 +119,24 @@ const Sidebar = () => {
 
           </Text>
         </Flex>
-        <Link to="/">
-          <FontAwesomeIcon
-            icon={faArrowRightFromBracket}
-            color="#565656"
-            size="1x"
-            onClick={() => signOut(auth)}
-          />
-        </Link>
+        {/* <Link to="/"> */}
+        <PopoverToConfirm
+          funcArg={() => signOut(auth)}
+          contentText="ログアウトします。よろしいですか?"
+          confirmText="はい"
+          cancelText="いいえ"
+        >
+          <Box _hover={{ cursor: 'pointer', filter: 'contrast(200%)' }}>
+            <FontAwesomeIcon
+              icon={faArrowRightFromBracket}
+              color="#565656"
+              size="1x"
+              style={{ padding: '10px' }}
+
+            />
+          </Box>
+        </PopoverToConfirm>
+        {/* </Link> */}
       </Flex>
 
       <Button

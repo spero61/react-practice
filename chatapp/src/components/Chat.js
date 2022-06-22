@@ -1,7 +1,7 @@
 import { Flex, Text, Stack } from '@chakra-ui/layout';
 import { Image, Popover, PopoverContent, PopoverFooter, PopoverBody, Box, ButtonGroup, Button, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverTrigger } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import { collection, doc, query, orderBy } from 'firebase/firestore';
+import { collection, doc, query, orderBy, limit, where, getDocs, deleteDoc, documentId, queryEqual } from 'firebase/firestore';
 import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -10,15 +10,16 @@ import { auth, db } from '../firebaseConfig';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
 import BottomBar from './BottomBar';
+import PopoverToConfirm from './PopoverToConfirm';
 
 const Chat = () => {
   const [user] = useAuthState(auth);
   const { id } = useParams();
   const bottomOfChat = useRef();
 
-  // https://github.com/CSFrequency/react-firebase-hooks/tree/master/firestore#usecollectiondata
-  // const q = query(collection(db, 'chats', id, 'messages'), orderBy('timestamp'));
-  const q = query(collection(db, `chats/${id}/messages`), orderBy('timestamp'));
+  const collectionRef = collection(db, `chats/${id}/messages`);
+  // const q = query(collectionRef, orderBy('timestamp'));
+  const q = query(collectionRef, orderBy('timestamp'), limit(15));
   const [messages] = useCollectionData(q);
 
   // get an email address of the recipient
@@ -26,16 +27,39 @@ const Chat = () => {
     ?.filter(userEmail => userEmail !== currentUser)[0];
 
   const [chatInfo] = useDocumentData(doc(db, 'chats', id));
+  let timestampFormatted = '12/31 12:34:56'; // initialize the value for debugging
 
-  let timestampFormatted = '12/31 12:34:56'; // initial value for debugging
+  async function deleteMessage(sec, nanoSec) {
+    let selectedDocId = null;
+    const querySnapshot = await getDocs(collectionRef);
+    querySnapshot.forEach((messageDoc) => {
+      // first, check if selected message is owned by this user
+      if (user.email === messageDoc.data()?.sender) {
+        // then find selected message matches according to timestamp
+        if (sec === messageDoc.data()?.timestamp?.seconds
+          && nanoSec === messageDoc.data()?.timestamp?.nanoseconds) {
+          // this is the document ID a user is trying to delete
+          selectedDocId = messageDoc.id;
+        }
+      }
+    });
+    if (selectedDocId) {
+      await deleteDoc(doc(db, `chats/${id}/messages`, selectedDocId));
+    } else {
+      alert('このメッセージは削除できません。');
+    }
+  }
 
   const getMessages = () => messages
-    ?.map(msg => {
-      const sender = msg.sender === user.email;
-      const senderId = msg.sender.slice(0, -10); // substring without "@gmail.com"
+    ?.map(message => {
+      const sender = message.sender === user.email;
+      const senderId = message.sender.slice(0, -10); // substring without "@gmail.com"
+      // console.log((message.timestamp?.seconds === 1655812378
+      //   && message.timestamp?.nanoseconds === 479000000));
+
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#get_the_number_of_seconds_since_the_ecmascript_epoch
-      if (msg.timestamp?.seconds) {
-        const timestamp = new Date(msg.timestamp.seconds * 1000);
+      if (message.timestamp?.seconds) {
+        const timestamp = new Date(message.timestamp.seconds * 1000);
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString
         timestampFormatted = timestamp.toLocaleString('ja-JP').slice(5); // to get rid of year
       }
@@ -55,7 +79,15 @@ const Chat = () => {
           >
             {senderId || ''}
           </Text>
-          <PopoverToConfirm>
+          <PopoverToConfirm
+            contentText="このメッセージを削除しますか?"
+            confirmText="削除"
+            cancelText="キャンセル"
+            funcArg={() => deleteMessage(
+              message?.timestamp?.seconds,
+              message?.timestamp?.nanoseconds,
+            )}
+          >
             <Flex
               w="fit-content"
               minWidth="100px"
@@ -70,14 +102,14 @@ const Chat = () => {
                 boxSize={['15px', '20px', '25px']}
                 borderRadius="full"
                 objectFit="cover"
-                src={msg.picURL ? msg.picURL : 'https://i.imgur.com/EuXdDLh.png'}
+                src={message.picURL ? message.picURL : 'https://i.imgur.com/EuXdDLh.png'}
                 alt="profile pic"
               />
               <Text
                 fontSize={['11px', '13px', 'md']}
                 fontWeight={[500, 400, 400]}
               >
-                {msg.text}
+                {message.text}
               </Text>
             </Flex>
           </PopoverToConfirm>
@@ -145,30 +177,5 @@ const Chat = () => {
     </Flex>
   );
 };
-
-function PopoverToConfirm({ children }) {
-  const initialFocusRef = useRef();
-  return (
-    <Popover>
-      <PopoverTrigger>
-        {children}
-      </PopoverTrigger>
-      <PopoverContent zIndex={4}>
-        <PopoverHeader fontWeight="semibold">Confirmation</PopoverHeader>
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody>
-          このメッセージを削除しますか。
-        </PopoverBody>
-        <PopoverFooter display="flex" justifyContent="flex-end">
-          <ButtonGroup size="sm">
-            <Button variant="outline">キャンセル</Button>
-            <Button colorScheme="red">削除</Button>
-          </ButtonGroup>
-        </PopoverFooter>
-      </PopoverContent>
-    </Popover>
-  );
-}
 
 export default Chat;
