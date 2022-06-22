@@ -2,7 +2,7 @@ import { Popover, PopoverContent, PopoverFooter, PopoverBody, useDisclosure, But
 import { useRef } from 'react';
 
 function PopoverToConfirm({ children, funcArg, contentText, confirmText, cancelText }) {
-  const initialFocusRef = useRef();
+  // const initialFocusRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // note: using useState hook on "isValid" instead causes infinite rendering

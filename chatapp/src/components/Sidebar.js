@@ -1,16 +1,16 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Avatar } from '@chakra-ui/avatar';
-import { Button } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Flex, Text, Box } from '@chakra-ui/layout';
 import { signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { auth, db } from '../firebaseConfig';
 import PopoverToConfirm from './PopoverToConfirm';
+import PopoverForm from './PopoverForm';
 
 // get email addresses of users other then currently signed-in user
 const getEmails = (users, currentUser) => users?.filter(user => user !== currentUser.email)[0];
@@ -32,17 +32,6 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-  // user.email: an email of the current user
-  const isChatExists = (email) => chats
-    ?.find(chat => (chat.users.includes(user.email) && chat.users.includes(email)));
-
-  const newChat = async () => {
-    const email = prompt('Enter email of chat recipient');
-    if (!isChatExists(email)) {
-      await addDoc(collection(db, 'chats'), { users: [user.email, email] });
-    }
-  };
 
   const chatList = () => {
     // const numberOfImages = 10;
@@ -115,7 +104,6 @@ const Sidebar = () => {
 
           </Text>
         </Flex>
-        {/* <Link to="/"> */}
         <PopoverToConfirm
           funcArg={() => signOut(auth)}
           contentText="ログアウトします。よろしいですか?"
@@ -132,10 +120,9 @@ const Sidebar = () => {
             />
           </Box>
         </PopoverToConfirm>
-        {/* </Link> */}
       </Flex>
 
-      <Button
+      {/* <Button
         bgGradient="linear(to-br, teal.300, purple.200)"
         fontSize={['12px', '14px', '16px']}
         fontWeight={[500, 600, 600]}
@@ -146,7 +133,9 @@ const Sidebar = () => {
         onClick={() => newChat()}
       >
         New Chat
-      </Button>
+      </Button> */}
+
+      <PopoverForm />
 
       {/* sx prop: https://chakra-ui.com/docs/styled-system/features/the-sx-prop */}
       <Flex

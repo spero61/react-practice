@@ -5,6 +5,7 @@
   "dependencies": {
     "@chakra-ui/avatar": "^2.0.3",
     "@chakra-ui/button": "^2.0.2",
+    "@chakra-ui/focus-lock": "^2.0.3",
     "@chakra-ui/icons": "^2.0.2",
     "@chakra-ui/layout": "^2.0.2",
     "@chakra-ui/react": "^2.2.1",
