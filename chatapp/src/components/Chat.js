@@ -45,8 +45,6 @@ const Chat = () => {
     });
     if (selectedDocId) {
       await deleteDoc(doc(db, `chats/${id}/messages`, selectedDocId));
-    } else {
-      alert('このメッセージは削除できません。');
     }
   }
 
@@ -79,10 +77,13 @@ const Chat = () => {
           >
             {senderId || ''}
           </Text>
+          {/* conditional rendering to reuse this component for different popover situations */}
           <PopoverToConfirm
-            contentText="このメッセージを削除しますか?"
-            confirmText="削除"
-            cancelText="キャンセル"
+            contentText={sender ? 'このメッセージを削除しますか?' : 'このメッセージは削除できません。'}
+            confirmText={sender ? '削除' : ''}
+            cancelText={sender ? 'キャンセル' : '確認'}
+            // it is impossible to delete the message not owned by this user
+            // double checked by the logic inside of the deleteMessage function
             funcArg={() => deleteMessage(
               message?.timestamp?.seconds,
               message?.timestamp?.nanoseconds,

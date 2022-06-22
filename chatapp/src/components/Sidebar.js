@@ -25,10 +25,6 @@ const ChatListText = ({ children }) => (
   </Text>
 );
 
-function signOutFromGoogle(authState) {
-  signOut(authState);
-}
-
 const Sidebar = () => {
   const [user] = useAuthState(auth);
   // https://github.com/CSFrequency/react-firebase-hooks/tree/master/firestore

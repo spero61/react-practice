@@ -5,6 +5,13 @@ function PopoverToConfirm({ children, funcArg, contentText, confirmText, cancelT
   const initialFocusRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // note: using useState hook on "isValid" instead causes infinite rendering
+  // might be triggered by some code inside of Chakra UI (need to check later)
+  let isValid = true;
+  if (confirmText === '') {
+    isValid = false;
+  }
+
   return (
     <Popover
       isOpen={isOpen}
@@ -25,7 +32,7 @@ function PopoverToConfirm({ children, funcArg, contentText, confirmText, cancelT
         <PopoverFooter display="flex" justifyContent="flex-end">
           <ButtonGroup size="sm">
             <Button variant="outline" onClick={onClose}>{cancelText}</Button>
-            <Button colorScheme="red" onClick={funcArg}>{confirmText}</Button>
+            {isValid ? <Button colorScheme="red" onClick={funcArg}>{confirmText}</Button> : null}
           </ButtonGroup>
         </PopoverFooter>
       </PopoverContent>
