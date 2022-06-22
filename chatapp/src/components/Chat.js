@@ -1,5 +1,5 @@
 import { Flex, Text, Stack } from '@chakra-ui/layout';
-import { Image } from '@chakra-ui/react';
+import { Image, Popover, PopoverContent, PopoverFooter, PopoverBody, Box, ButtonGroup, Button, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverTrigger } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { collection, doc, query, orderBy } from 'firebase/firestore';
 import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
@@ -55,30 +55,32 @@ const Chat = () => {
           >
             {senderId || ''}
           </Text>
-
-          <Flex
-            w="fit-content"
-            minWidth="100px"
-            borderRadius="lg"
-            p={2}
-            my={2}
-            bg={sender ? 'blue.100' : 'green.100'}
-            alignSelf={sender ? 'flex-end' : 'flex-start'}
-          >
-            <Image
-              marginEnd={2}
-              boxSize={['15px', '20px', '25px']}
-              borderRadius="full"
-              objectFit="cover"
-              src={msg.picURL ? msg.picURL : 'https://i.imgur.com/EuXdDLh.png'}
-              alt="profile pic"
-            />
-            <Text
-              fontSize={['11px', '13px', 'md']}
+          <PopoverToConfirm>
+            <Flex
+              w="fit-content"
+              minWidth="100px"
+              borderRadius="lg"
+              p={2}
+              my={2}
+              bg={sender ? 'blue.100' : 'green.100'}
+              alignSelf={sender ? 'flex-end' : 'flex-start'}
             >
-              {msg.text}
-            </Text>
-          </Flex>
+              <Image
+                marginEnd={2}
+                boxSize={['15px', '20px', '25px']}
+                borderRadius="full"
+                objectFit="cover"
+                src={msg.picURL ? msg.picURL : 'https://i.imgur.com/EuXdDLh.png'}
+                alt="profile pic"
+              />
+              <Text
+                fontSize={['11px', '13px', 'md']}
+                fontWeight={[500, 400, 400]}
+              >
+                {msg.text}
+              </Text>
+            </Flex>
+          </PopoverToConfirm>
           <Text
             marginTop={0}
             textAlign={sender ? 'end' : 'start'}
@@ -143,5 +145,30 @@ const Chat = () => {
     </Flex>
   );
 };
+
+function PopoverToConfirm({ children }) {
+  const initialFocusRef = useRef();
+  return (
+    <Popover>
+      <PopoverTrigger>
+        {children}
+      </PopoverTrigger>
+      <PopoverContent zIndex={4}>
+        <PopoverHeader fontWeight="semibold">Confirmation</PopoverHeader>
+        <PopoverArrow />
+        <PopoverCloseButton />
+        <PopoverBody>
+          このメッセージを削除しますか。
+        </PopoverBody>
+        <PopoverFooter display="flex" justifyContent="flex-end">
+          <ButtonGroup size="sm">
+            <Button variant="outline">キャンセル</Button>
+            <Button colorScheme="red">削除</Button>
+          </ButtonGroup>
+        </PopoverFooter>
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 export default Chat;

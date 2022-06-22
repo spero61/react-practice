@@ -18,7 +18,7 @@ const ChatListText = ({ children }) => (
   <Text
     fontSize={['11px', '14px', '16px']}
     fontWeight={[500, 600, 600]}
-    color="#343434"
+    color="#456789"
   >
     {children}
   </Text>
@@ -99,7 +99,6 @@ const Sidebar = () => {
         borderBottom="1px solid"
         borderColor="teal.200"
       >
-        {/* default profile avatar */}
         <Flex align="center">
           <Avatar
             w={['30px', '35px', '55px']}
@@ -109,7 +108,7 @@ const Sidebar = () => {
           />
           <Text
             fontSize={['10px', '', 'lg']}
-            color="#333333"
+            color="#345678"
             fontWeight={700}
           >
             {user.displayName}
@@ -119,7 +118,7 @@ const Sidebar = () => {
         <Link to="/">
           <FontAwesomeIcon
             icon={faArrowRightFromBracket}
-            color="#555555"
+            color="#565656"
             size="1x"
             onClick={() => signOut(auth)}
           />
@@ -127,7 +126,7 @@ const Sidebar = () => {
       </Flex>
 
       <Button
-        bgGradient="linear(to-br, yellow.100, purple.100)"
+        bgGradient="linear(to-br, teal.300, purple.200)"
         fontSize={['12px', '14px', '16px']}
         fontWeight={[500, 600, 600]}
         borderRadius="full"

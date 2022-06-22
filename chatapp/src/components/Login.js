@@ -1,5 +1,5 @@
 import { ChatIcon } from '@chakra-ui/icons';
-import { Box, Center, Stack, Image, Text } from '@chakra-ui/react';
+import { Box, Center, Stack, Image, Heading } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,15 +17,15 @@ const Login = () => {
       backgroundSize="cover"
     >
       <Stack align="center" mb={20}>
-        <Text
+        <Heading
           color="#345678"
           fontWeight="bold"
-          fontFamily={"'Pacifico', cursive"}
+          // fontFamily={"'Pacifico', cursive"} // set as extendTheme see index.js
           fontSize={['32px', '35px', '40px']}
           mb={[1, 2, 3]}
         >
           Luomu ChatApp
-        </Text>
+        </Heading>
         <Stack align="center" bgColor="#FFFFFF55" p={10} rounded="xl" spacing={5} boxShadow="lg">
           <Box
             bgGradient="linear(to-bl, pink.400, teal.400)"
@@ -34,7 +34,6 @@ const Login = () => {
             rounded="2xl"
             boxShadow="md"
           >
-            {/* <FontAwesomeIcon icon="fa-regular fa-comment-dots" /> */}
             <FontAwesomeIcon
               icon={faCommentDots}
               color="#FFFFFF"

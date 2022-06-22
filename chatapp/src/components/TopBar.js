@@ -1,5 +1,5 @@
 import { Avatar } from '@chakra-ui/avatar';
-import { Flex, Heading } from '@chakra-ui/layout';
+import { Flex, Text } from '@chakra-ui/layout';
 
 const TopBar = ({ email }) => {
   const topbarPic = 'https://i.imgur.com/EuXdDLh.png';
@@ -9,17 +9,21 @@ const TopBar = ({ email }) => {
       h={['70px', '75px', '80px']}
       w="100%"
       align="center"
-      p={5}
+      p={[3, 4, 5]}
     >
-      <Avatar src={topbarPic} marginEnd={3} />
-      <Heading
-        size={['md', 'lg', 'lg']}
+      <Avatar
+        src={topbarPic}
+        marginEnd={[2, 2, 3]}
+      />
+      <Text
+        fontSize={['20px', '23px', '25px', '28px', '30px', '35px']}
+        fontWeight={900}
         bgGradient="linear(to-bl, pink.400, teal.400)"
         bgClip="text"
-        paddingBottom={2}
+        paddingBottom={[0, 1, 2]}
       >
         {email}
-      </Heading>
+      </Text>
     </Flex>
   );
 };
