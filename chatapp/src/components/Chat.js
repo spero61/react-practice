@@ -1,5 +1,5 @@
 import { Flex, Text, Stack } from '@chakra-ui/layout';
-import { Image, Popover, PopoverContent, PopoverFooter, PopoverBody, Box, ButtonGroup, Button, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverTrigger } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import { collection, doc, query, orderBy, limit, where, getDocs, deleteDoc, documentId, queryEqual } from 'firebase/firestore';
 import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
@@ -18,8 +18,8 @@ const Chat = () => {
   const bottomOfChat = useRef();
 
   const collectionRef = collection(db, `chats/${id}/messages`);
-  // const q = query(collectionRef, orderBy('timestamp'));
-  const q = query(collectionRef, orderBy('timestamp'), limit(15));
+  // const q = query(collectionRef, orderBy('timestamp'), limit(10)); // for debugging
+  const q = query(collectionRef, orderBy('timestamp'));
   const [messages] = useCollectionData(q);
 
   // get an email address of the recipient

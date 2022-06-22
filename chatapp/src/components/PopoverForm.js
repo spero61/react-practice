@@ -1,5 +1,5 @@
 import { FocusLock } from '@chakra-ui/focus-lock';
-import { Popover, FormControl, FormLabel, PopoverContent, PopoverFooter, PopoverBody,
+import { Popover, FormControl, FormLabel, PopoverContent,
   useDisclosure, ButtonGroup, Button, Box, Input, Stack, PopoverArrow, PopoverCloseButton,
   PopoverHeader, PopoverTrigger } from '@chakra-ui/react';
 import { useRef, forwardRef } from 'react';
@@ -49,7 +49,7 @@ const Form = ({ firstFieldRef, onCancel }) => {
         label="Google ID"
         id="google-id"
         ref={firstFieldRef}
-        defaultValue="sss"
+        defaultValue=""
       />
       <TextInput label="Domain" id="domain" defaultValue="@gmail.com" isDisabled />
       <ButtonGroup display="flex" justifyContent="flex-end">
