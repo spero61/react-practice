@@ -110,6 +110,8 @@ const Chat = () => {
 
     <Flex
       id="chatContainer"
+      mr={[0, 0, 0, 90, 120, 210]}
+      ml={[0, 0, 0, 90, 120, 210]}
       h="100vh"
     >
       <Sidebar />
@@ -128,8 +130,8 @@ const Chat = () => {
           direction="column"
           pt={3}
           mx={3}
-          overflowX="scroll"
           sx={{ scrollbarWidth: 'none', overflowX: 'hidden' }}
+          overflowX="scroll"
         >
           {getMessages()}
           <div ref={bottomOfChat} />

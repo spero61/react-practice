@@ -45,6 +45,7 @@ const BottomBar = ({ id, email }) => {
         <Button
           p={[3, 4, 5]}
           type="submit"
+          _hover={{ bg: 'white' }}
         >
           <FontAwesomeIcon
             icon={faPaperPlane}

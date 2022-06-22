@@ -83,10 +83,8 @@ const Sidebar = () => {
       bgGradient={[
         'linear(to-t, #e1cbf7, teal.200)',
       ]}
-      w={['120px', '200px', '300px', '350px']}
-      // w="25vw"
+      w={['120px', '130px', '210px', '210px', '300px', '350px']}
       h="100vh"
-      // minWidth="250px"
       borderEnd="1px solid"
       borderColor="gray.200"
       direction="column"
@@ -143,6 +141,7 @@ const Sidebar = () => {
 
       {/* sx prop: https://chakra-ui.com/docs/styled-system/features/the-sx-prop */}
       <Flex
+        className="sidebar"
         key={uuidv4()}
         overflowX="scroll"
         direction="column"

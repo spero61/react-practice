@@ -7,10 +7,24 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* iOS only */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+ 
+#root {
+  background-image: url("../public/assets/root-background-with-text.jpg");
+  background-size: cover;
+}
+
+.chatarea, .sidebar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.chatarea::-webkit-scrollbar,
+.sidebar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
 }
